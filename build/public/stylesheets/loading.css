@@ -1,0 +1,119 @@
+html {
+  box-sizing: border-box; }
+
+*, *::after, *::before {
+  box-sizing: inherit; }
+
+@font-face {
+  font-family: "Vegur";
+  font-weight: normal;
+  src: url("../fonts/vegur/Vegur-B_0500.otf"); }
+
+@font-face {
+  font-family: "Vegur";
+  font-weight: bold;
+  src: url("../fonts/vegur/Vegur-EL_0500.otf"); }
+
+@font-face {
+  font-family: "Vegur";
+  font-weight: lighter;
+  src: url("../fonts/vegur/Vegur-R_0500.otf"); }
+
+* {
+  box-sizing: border-box;
+  font-family: "Vegur";
+  line-height: 35px;
+  color: #FFF;
+  text-decoration: none; }
+  *:focus {
+    outline: none; }
+
+body {
+  background-color: #009900;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  margin: 0px;
+  padding: 0px; }
+  body::after {
+    clear: both;
+    content: "";
+    display: block; }
+
+footer {
+  background-color: #006600;
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 100%;
+  color: #FFF;
+  position: fixed;
+  bottom: 0px;
+  padding-top: 10px; }
+  footer:last-child {
+    margin-right: 0; }
+  footer p {
+    font-size: 18px;
+    text-align: center;
+    line-height: 20px; }
+
+@media (min-width: 480px) and (max-width: 810px) {
+  footer {
+    position: relative; } }
+
+html:hover {
+  cursor: progress;
+  cursor: wait; }
+
+h3 {
+  font-size: 45px;
+  text-align: center;
+  margin-top: 35vh; }
+  h3.waitTime {
+    margin-top: 20vh; }
+
+form.form {
+  display: none; }
+
+img {
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 100%;
+  height: 50px;
+  border-radius: 5px; }
+  img:last-child {
+    margin-right: 0; }
+
+.imageBorder {
+  border-radius: 5px;
+  border: 3px solid #008000;
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 31.76157%;
+  margin-left: 34.11922%;
+  margin-right: 34%;
+  height: 56px; }
+  .imageBorder:last-child {
+    margin-right: 0; }
+
+@media (max-width: 480px) {
+  img {
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 65.88078%;
+    margin-left: 17.05961%; }
+    img:last-child {
+      margin-right: 0; }
+  h3 {
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 82.94039%;
+    margin-left: 8.5298%;
+    line-height: 45px;
+    margin-top: 30vh; }
+    h3:last-child {
+      margin-right: 0; } }
