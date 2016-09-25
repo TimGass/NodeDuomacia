@@ -1,0 +1,60 @@
+@import "../../bower_components/bourbon/app/assets/stylesheets/bourbon";
+@import "../../bower_components/neat/app/assets/stylesheets/neat";
+
+@font-face {
+  font-family: "Vegur";
+  font-weight: normal;
+  src: url("../fonts/vegur/Vegur-B_0500.otf");
+};
+
+@font-face {
+  font-family: "Vegur";
+  font-weight: bold;
+  src: url("../fonts/vegur/Vegur-EL_0500.otf");
+};
+
+@font-face {
+  font-family: "Vegur";
+  font-weight: lighter;
+  src: url("../fonts/vegur/Vegur-R_0500.otf");
+};
+
+* {
+  box-sizing: border-box;
+  font-family: "Vegur";
+  line-height: 35px;
+  color: #FFF;
+  text-decoration: none;
+
+  &:focus{
+    outline: none;
+  }
+}
+
+body{
+  background-color: #009900;
+  @include outer-container(100%);
+  margin: 0px;
+  padding: 0px;
+}
+
+footer{
+  background-color: #006600;
+  @include span-columns(12);
+  color: #FFF;
+  position: fixed;
+  bottom: 0px;
+  padding-top: 10px;
+
+  p{
+    font-size: 18px;
+    text-align: center;
+    line-height: 20px;
+  }
+}
+
+@media (min-width: 480px) and (max-width: 810px){
+  footer{
+    position: relative;
+  }
+}

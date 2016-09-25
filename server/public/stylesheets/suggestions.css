@@ -1,0 +1,403 @@
+html {
+  box-sizing: border-box; }
+
+*, *::after, *::before {
+  box-sizing: inherit; }
+
+@font-face {
+  font-family: "Vegur";
+  font-weight: normal;
+  src: url("../fonts/vegur/Vegur-B_0500.otf"); }
+
+@font-face {
+  font-family: "Vegur";
+  font-weight: bold;
+  src: url("../fonts/vegur/Vegur-EL_0500.otf"); }
+
+@font-face {
+  font-family: "Vegur";
+  font-weight: lighter;
+  src: url("../fonts/vegur/Vegur-R_0500.otf"); }
+
+* {
+  box-sizing: border-box;
+  font-family: "Vegur";
+  line-height: 35px;
+  color: #FFF;
+  text-decoration: none; }
+  *:focus {
+    outline: none; }
+
+body {
+  background-color: #009900;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  margin: 0px;
+  padding: 0px; }
+  body::after {
+    clear: both;
+    content: "";
+    display: block; }
+
+footer {
+  background-color: #006600;
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 100%;
+  color: #FFF;
+  position: fixed;
+  bottom: 0px;
+  padding-top: 10px; }
+  footer:last-child {
+    margin-right: 0; }
+  footer p {
+    font-size: 18px;
+    text-align: center;
+    line-height: 20px; }
+
+@media (min-width: 480px) and (max-width: 810px) {
+  footer {
+    position: relative; } }
+
+html {
+  box-sizing: border-box; }
+
+*, *::after, *::before {
+  box-sizing: inherit; }
+
+@font-face {
+  font-family: "Vegur";
+  font-weight: normal;
+  src: url("../fonts/vegur/Vegur-B_0500.otf"); }
+
+@font-face {
+  font-family: "Vegur";
+  font-weight: bold;
+  src: url("../fonts/vegur/Vegur-EL_0500.otf"); }
+
+@font-face {
+  font-family: "Vegur";
+  font-weight: lighter;
+  src: url("../fonts/vegur/Vegur-R_0500.otf"); }
+
+* {
+  box-sizing: border-box;
+  font-family: "Vegur";
+  line-height: 35px;
+  color: #FFF;
+  text-decoration: none; }
+  *:focus {
+    outline: none; }
+
+body {
+  background-color: #009900;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  margin: 0px;
+  padding: 0px; }
+  body::after {
+    clear: both;
+    content: "";
+    display: block; }
+
+footer {
+  background-color: #006600;
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 100%;
+  color: #FFF;
+  position: fixed;
+  bottom: 0px;
+  padding-top: 10px; }
+  footer:last-child {
+    margin-right: 0; }
+  footer p {
+    font-size: 18px;
+    text-align: center;
+    line-height: 20px; }
+
+@media (min-width: 480px) and (max-width: 810px) {
+  footer {
+    position: relative; } }
+
+h1 {
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 100%;
+  color: #FFF;
+  font-family: 'Vegur';
+  font-size: 50px;
+  text-align: center;
+  color: #FF6400;
+  margin-bottom: 10px;
+  position: relative; }
+  h1:last-child {
+    margin-right: 0; }
+
+h2 {
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 100%;
+  color: #181865;
+  font-family: 'Vegur';
+  text-align: center;
+  font-size: 35px;
+  margin-top: 0px;
+  margin-bottom: 10px; }
+  h2:last-child {
+    margin-right: 0; }
+  h2:nth-child(n) {
+    margin-right: 0; }
+
+div.headingBox {
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 36.02647%;
+  margin-left: 31.98677%;
+  border: 2px solid #9A9A9A;
+  border-top: none;
+  background-color: #FFF;
+  border-radius: 0px 0px 20px 20px;
+  position: absolute;
+  transition: .5s all linear;
+  z-index: 3; }
+  div.headingBox:last-child {
+    margin-right: 0; }
+  div.headingBox:hover {
+    top: 0px;
+    transition: .5s all linear; }
+  div.headingBox a {
+    margin-top: 15px;
+    text-align: center;
+    font-size: 35px;
+    font-family: sans-serif;
+    display: block;
+    text-shadow: none;
+    text-decoration: none;
+    font-weight: 100; }
+
+div.leftBox {
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 21.5258%;
+  margin-top: 121px;
+  border: 2px solid #181865;
+  border-radius: 0px 20px 20px 0px;
+  border-left: 0px;
+  position: absolute;
+  background-color: #FF6400;
+  padding-bottom: 25px;
+  overflow: hidden; }
+  div.leftBox:last-child {
+    margin-right: 0; }
+  div.leftBox:hover {
+    cursor: grab;
+    cursor: hand;
+    cursor: pointer; }
+  div.leftBox h3 {
+    color: #181865;
+    margin-bottom: 0px;
+    font-size: 35px;
+    text-align: center; }
+  div.leftBox div.innerWrapper {
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 87.20529%;
+    margin-left: 12.79471%; }
+    div.leftBox div.innerWrapper:last-child {
+      margin-right: 0; }
+    div.leftBox div.innerWrapper:nth-child(n) {
+      margin-right: 0; }
+    div.leftBox div.innerWrapper h4 {
+      color: #181865;
+      margin-bottom: 0px;
+      font-size: 25px; }
+    div.leftBox div.innerWrapper h5 {
+      color: #181865;
+      margin-top: 10px;
+      display: block;
+      margin-bottom: 0px;
+      font-size: 18px; }
+
+div.rightBox {
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 21.5258%;
+  margin-top: 121px;
+  right: 0px;
+  border: 2px solid #FF6400;
+  border-radius: 20px 0px 0px 20px;
+  border-right: none;
+  position: absolute;
+  background-color: #181865;
+  padding-bottom: 25px;
+  overflow: hidden; }
+  div.rightBox:last-child {
+    margin-right: 0; }
+  div.rightBox:nth-child(n) {
+    margin-right: 0; }
+  div.rightBox:hover {
+    cursor: grab;
+    cursor: hand;
+    cursor: pointer; }
+  div.rightBox h3 {
+    color: #FF6400;
+    margin-bottom: 0px;
+    font-size: 35px;
+    text-align: center; }
+  div.rightBox div.innerWrapper {
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 87.20529%;
+    margin-left: 12.79471%; }
+    div.rightBox div.innerWrapper:last-child {
+      margin-right: 0; }
+    div.rightBox div.innerWrapper:nth-child(n) {
+      margin-right: 0; }
+    div.rightBox div.innerWrapper h4 {
+      color: #FF6400;
+      margin-bottom: 0px;
+      font-size: 25px; }
+    div.rightBox div.innerWrapper h5 {
+      color: #FF6400;
+      margin-top: 10px;
+      margin-bottom: 0px;
+      font-size: 18px; }
+
+.Logo {
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 59.05694%;
+  margin-left: 20.47153%;
+  opacity: .2;
+  z-index: -1;
+  position: relative;
+  margin-top: 55px; }
+  .Logo:last-child {
+    margin-right: 0; }
+  .Logo:nth-child(n) {
+    margin-right: 0; }
+
+a {
+  text-decoration: none; }
+  a div.suggestedBox {
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 48.82117%;
+    margin-left: 25.58941%;
+    border: 2px solid #9A9A9A;
+    background-color: #FFF;
+    border-radius: 20px 20px 20px 20px;
+    padding: 20px;
+    position: relative; }
+    a div.suggestedBox:last-child {
+      margin-right: 0; }
+    a div.suggestedBox:hover {
+      cursor: grab;
+      cursor: hand;
+      cursor: pointer; }
+    a div.suggestedBox h3 {
+      color: #181865;
+      font-size: 35px;
+      text-align: center; }
+    a div.suggestedBox p {
+      color: #181865; }
+
+@media (max-width: 480px) {
+  .Logo {
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 82.94039%;
+    margin-left: 8.5298%;
+    margin-top: 100px; }
+    .Logo:last-child {
+      margin-right: 0; }
+  div.headingBox {
+    margin-left: 8.5298%;
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 82.94039%; }
+    div.headingBox:last-child {
+      margin-right: 0; }
+    div.headingBox h1 {
+      font-size: 35px; }
+    div.headingBox h2 {
+      font-size: 25px; }
+  form div.suggestedBox {
+    margin-left: 8.5298%;
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 82.94039%; }
+    form div.suggestedBox:last-child {
+      margin-right: 0; }
+  div.leftBox {
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 8.73109%;
+    margin-top: 141px; }
+    div.leftBox:last-child {
+      margin-right: 0; }
+    div.leftBox div.innerWrapper h4 {
+      font-size: 20px; }
+  div.rightBox {
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 8.73109%;
+    margin-top: 141px; }
+    div.rightBox:last-child {
+      margin-right: 0; }
+    div.rightBox div.innerWrapper h4 {
+      font-size: 20px; } }
+
+@media (min-width: 480px) and (max-width: 810px) {
+  div.headingBox {
+    margin-left: 21.751%;
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 56.498%; }
+    div.headingBox:last-child {
+      margin-right: 0; }
+  .Logo {
+    margin-top: 70px; }
+  form div.suggestedBox {
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 56.498%;
+    margin-left: 21.751%; }
+    form div.suggestedBox:last-child {
+      margin-right: 0; }
+  div.leftBox div.innerWrapper h4 {
+    font-size: 21px; }
+  div.rightBox div.innerWrapper h4 {
+    font-size: 21px; } }
+
+div.headingBox {
+  top: -105px; }
+  div.headingBox a {
+    color: #FF6400; }
+    div.headingBox a:nth-of-type(2n) {
+      color: #181865; }
+
+@media (max-width: 480px) {
+  div.headingBox {
+    top: -115px; } }

@@ -1,0 +1,23 @@
+{
+  "name": "duomacia",
+  "version": "0.0.0",
+  "authors": [
+    "Timothy Andrew Gass <timothyagass@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "neat": "~1.8.0",
+    "bourbon": "~4.2.7"
+  }
+}

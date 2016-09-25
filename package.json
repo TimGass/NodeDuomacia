@@ -1,0 +1,51 @@
+{
+  "name": "node-boilerplate",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "forever ./build/bin/www",
+    "clean": "rm -rf build && mkdir build",
+    "build-server": "babel --presets=es2015 -d ./build ./server -s && mkdir ./build/bin && cp -a ./server/public ./build && gulp rename && gulp clean && babel --presets=es2015 -d ./build/bin ./server/bin && gulp www && cp .env ./build && cp procfile ./build && gulp production",
+    "run-server": "babel-node --presets=es2015 ./server/bin/www",
+    "edit-server": "sudo nodemon -x 'babel-node --presets=es2015' ./server/bin/www",
+    "prep": "cp package.json ./build && cp procfile ./build && cp .env ./build"
+  },
+  "dependencies": {
+    "babel": "^5.8.9",
+    "babel-cli": "^6.9.0",
+    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-react": "^6.5.0",
+    "body-parser": "~1.13.2",
+    "cluster": "^0.7.7",
+    "cookie-parser": "~1.3.5",
+    "debug": "~2.2.0",
+    "express": "~4.13.1",
+    "express-react-views": "^0.10.2",
+    "gulp": "^3.9.0",
+    "gulp-clean": "^0.3.2",
+    "gulp-rename": "^1.2.2",
+    "moment": "^2.13.0",
+    "morgan": "~1.6.1",
+    "react": "^0.14.7",
+    "react-dom": "^0.14.7",
+    "request": "^2.72.0",
+    "serve-favicon": "~2.3.0",
+    "simple-rate-limiter": "^0.2.3",
+    "socket.io": "^1.4.8",
+    "sync-exec": "^0.6.2",
+    "then-request": "^2.2.0"
+  },
+  "devDependencies": {
+    "babelify": "^7.3.0",
+    "browserify": "^13.0.1",
+    "event-stream": "^3.3.3",
+    "glob": "^7.0.5",
+    "gulp-sass": "^2.3.2",
+    "gulp-uglify": "^1.5.4",
+    "gulp-util": "^3.0.7",
+    "jquery": "^3.0.0",
+    "simple-rate-limiter": "^0.2.3",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0"
+  }
+}
