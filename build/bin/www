@@ -83,6 +83,7 @@ io.on("connection", function (socket) {
     var callback = function callback(data) {
       return socket.emit("data", { data: data });
     };
+    //just in case we need to kill stuff, we'll have timeout wrappers and can kill by clearTimeout(controllers[socket.id])
     controllers[socket.id] = setTimeout(function () {
       (0, _routesControllersSuggestionsControllerJs2['default'])(cookies, socket, callback);
     }, 0);

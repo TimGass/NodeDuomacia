@@ -25,14 +25,27 @@ function SummonerController(req, res) {
     return res.redirect("../error/" + status);
   }
   var url = "https://na.api.pvp.net/api/lol/na/v1.4/summoner/by-name/" + truename + "?api_key=RGAPI-185B94BD-6063-4F75-81CB-B5D98501B146";
-  (0, _request2["default"])(url, function (err, response, data) {
-    if (err && response.statusCode > 310) {
-      console.error(err);
+  var _getter = function getter(err, response, data) {
+    if (response.statusCode > 310) {
+      console.error(response.statusCode);
+      if (response.statusCode === 429) {
+        if (response.headers.hasOwnProperty("retry-after")) {
+          (0, _request2["default"])(response.request.uri.href, _getter, response.headers.retry - after * 1000);
+        } else {
+          (0, _request2["default"])(response.request.uri.href, _getter, 5000);
+        }
+      } else if (response.statusCode === 404) {
+        return res.redirect("../error/404");
+      } else {
+        (0, _request2["default"])(response.request.uri.href, _getter, 5000);
+      }
+    } else {
+      result = JSON.parse(data);
+      status = response.statusCode;
+      dataHandler1();
     }
-    result = JSON.parse(data);
-    status = response.statusCode;
-    dataHandler1();
-  });
+  };
+  (0, _request2["default"])(url, _getter);
   dataHandler1 = function () {
     if (status > 310) {
       return res.redirect("../error/" + status);
@@ -42,14 +55,27 @@ function SummonerController(req, res) {
     var idResult = undefined;
     var idStatus = undefined;
     url = "https://na.api.pvp.net/api/lol/na/v2.5/league/by-summoner/" + id + "?api_key=RGAPI-185B94BD-6063-4F75-81CB-B5D98501B146";
-    (0, _request2["default"])(url, function (err, response, data) {
-      if (err && response.statusCode > 310) {
-        console.error(err);
+    _getter = function (err, response, data) {
+      if (response.statusCode > 310) {
+        console.error(response.statusCode);
+        if (response.statusCode === 429) {
+          if (response.headers.hasOwnProperty("retry-after")) {
+            (0, _request2["default"])(response.request.uri.href, _getter, response.headers.retry - after * 1000);
+          } else {
+            (0, _request2["default"])(response.request.uri.href, _getter, 5000);
+          }
+        } else if (response.statusCode === 404) {
+          return res.redirect("../error/404");
+        } else {
+          (0, _request2["default"])(response.request.uri.href, _getter, 5000);
+        }
+      } else {
+        idResult = JSON.parse(data);
+        idStatus = response.statusCode;
+        dataHandler2();
       }
-      idResult = JSON.parse(data);
-      idStatus = response.statusCode;
-      dataHandler2();
-    });
+    };
+    (0, _request2["default"])(url, _getter);
     dataHandler2 = function () {
       if (idStatus === 404) {
         return res.redirect("../error/unranked");
@@ -87,16 +113,28 @@ function SummonerController(req, res) {
       // make a request to get a list of all the match IDs that the user has
       // played in ranked this year.
 
-      (0, _request2["default"])(url, function (err, response, data) {
+      _getter = function (err, response, data) {
         if (response.statusCode > 310) {
           console.error(response.statusCode);
-          return res.redirect("../error/" + idStatus);
+          if (response.statusCode === 429) {
+            if (response.headers.hasOwnProperty("retry-after")) {
+              (0, _request2["default"])(response.request.uri.href, _getter, response.headers.retry - after * 1000);
+            } else {
+              (0, _request2["default"])(response.request.uri.href, _getter, 5000);
+            }
+          } else if (response.statusCode === 404) {
+            return res.redirect("../error/404");
+          } else {
+            (0, _request2["default"])(response.request.uri.href, _getter, 5000);
+          }
+        } else {
+          var matchList = JSON.parse(data);
+          var waitTime = _moment2["default"].duration(matchList.matches.length / 3000 * 10500 + 10000).humanize();
+          res.cookie('waitTime', matchList.matches.length / 3000 * 10500 + 10000, { maxAge: 2592000, httpOnly: false });
+          return res.render("summoner", { winResult: winResult, hotResult: hotResult, name: req.params.summoner, waitTime: waitTime });
         }
-        var matchList = JSON.parse(data);
-        var waitTime = _moment2["default"].duration(matchList.matches.length / 3000 * 10500 + 10000).humanize();
-        res.cookie('waitTime', matchList.matches.length / 3000 * 10500 + 10000, { maxAge: 2592000, httpOnly: false });
-        return res.render("summoner", { winResult: winResult, hotResult: hotResult, name: req.params.summoner, waitTime: waitTime });
-      });
+      };
+      (0, _request2["default"])(url, _getter);
     };
   };
 }

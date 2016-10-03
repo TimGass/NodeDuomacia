@@ -29,6 +29,7 @@ function SuggestionsController(cookies, socket, callback) {
   var id = undefined;
   var wait = 0;
   var count = 0;
+  var urlArray = [];
 
   socket.on("disconnect", function () {
     dc = true;
@@ -124,31 +125,6 @@ function SuggestionsController(cookies, socket, callback) {
     }
   };
   var dataHandler2 = function dataHandler2() {
-    var matchIdArray = [];
-    matchArray.forEach(function (match) {
-      matchIdArray.push(match.matchId);
-    });
-    var log = {};
-    matchIdArray.forEach(function (item, key) {
-      if ((matchIdArray.indexOf(item) !== key || matchIdArray.indexOf(item, key + 1)) && matchIdArray.indexOf(item) !== -1) {
-        if (log[item]) {
-          return log[item]++;
-        }
-        return log[item] = 1;
-      }
-    });
-    console.log(log);
-    if (Object.keys(log).length > 0) {
-      Object.keys(log).forEach(function (matchId) {
-        matchArray.forEach(function (item, key) {
-          if (Number(matchId) === item.matchId) {
-            console.log(key);
-            matchArray.splice(key, log[matchId]);
-          }
-        });
-      });
-    }
-    console.log(matchArray);
     matchArray.forEach(function (match, number) {
       var winteam = undefined;
       var losePlayersId = [];
@@ -213,20 +189,28 @@ function SuggestionsController(cookies, socket, callback) {
         return;
       }
       url = "https://na.api.pvp.net/api/lol/na/v2.2/match/" + match + "?api_key=RGAPI-185B94BD-6063-4F75-81CB-B5D98501B146";
-      var getter = function getter(err, response, data) {
+      _getter = function (err, response, data) {
         if (!response) {
-          request(url, getter);
+          request(response.request.uri.href, _getter);
         } else {
           if (response.statusCode > 310) {
             console.error(response.statusCode);
             if (response.statusCode === 429) {
               if (response.headers.hasOwnProperty("retry-after")) {
-                request(url, getter, response.headers.retry - after * 1000);
+                request(response.request.uri.href, _getter, response.headers.retry - after * 1000);
               } else {
-                request(url, getter, 5000);
+                request(response.request.uri.href, _getter, 5000);
+              }
+            } else if (response.statusCode === 404) {
+              console.log("request:" + (count + 1) + " / " + matchIdList.length);
+              //DO NOTHING!
+              count++;
+              if (count === matchIdList.length) {
+                console.log("finished!");
+                return dataHandler2();
               }
             } else {
-              request(url, getter, 5000);
+              request(response.request.uri.href, _getter, 5000);
             }
           } else {
             console.log("request:" + (count + 1) + " / " + matchIdList.length);
@@ -248,7 +232,7 @@ function SuggestionsController(cookies, socket, callback) {
           }
         }
       };
-      request(url, getter);
+      request(url, _getter);
     });
   };
 
@@ -266,19 +250,29 @@ function SuggestionsController(cookies, socket, callback) {
   // make a request to get a list of all the match IDs that the user has
   // played in ranked this year.
 
-  return request(url, function (err, response, data) {
+  var _getter = function getter(err, response, data) {
     if (response.statusCode > 310) {
       console.error(response.statusCode);
-      status = response.statusCode;
-      dc = true;
-      return callback("../../../error/" + status);
+      if (response.statusCode === 429) {
+        if (response.headers.hasOwnProperty("retry-after")) {
+          request(response.request.uri.href, _getter, response.headers.retry - after * 1000);
+        } else {
+          request(response.request.uri.href, _getter, 5000);
+        }
+      } else if (response.statusCode === 404) {
+        return res.redirect("../../../error/404");
+      } else {
+        request(response.request.uri.href, _getter, 5000);
+      }
+    } else {
+      matchList = JSON.parse(data);
+      return dataHandler1();
+      if (dc) {
+        return;
+      }
     }
-    matchList = JSON.parse(data);
-    return dataHandler1();
-    if (dc) {
-      return;
-    }
-  });
+  };
+  return request(url, _getter);
 };
 
 exports["default"] = SuggestionsController;
