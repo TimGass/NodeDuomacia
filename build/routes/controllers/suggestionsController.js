@@ -111,7 +111,7 @@ function SuggestionsController(cookies, socket, callback) {
     };
     totalMapped.sort(percentageSort);
     var prefferedFilter = function prefferedFilter(player) {
-      return player.total > 2 && player.ratio > .55;
+      return player.total >= 2 && player.ratio > .55;
     };
     var lessPrefferedFilter = function lessPrefferedFilter(player) {
       return player.ratio >= .5;
@@ -268,7 +268,7 @@ function SuggestionsController(cookies, socket, callback) {
   // this allows us to skip a large part of the process down below,
   // letting us know their ID and that the account exists and is ranked.
   // So, we make less requests and speed up the process.
-  url = "https://na.api.pvp.net/api/lol/na/v2.2/matchlist/by-summoner/" + id + "?rankedQueues=RANKED_SOLO_5x5,TEAM_BUILDER_DRAFT_RANKED_5x5,TEAM_BUILDER_RANKED_SOLO&seasons=SEASON2016,PRESEASON2017,SEASON2017&api_key=" + _tokenTokenJs.Token;
+  url = "https://na.api.pvp.net/api/lol/na/v2.2/matchlist/by-summoner/" + id + "?rankedQueues=RANKED_SOLO_5x5,TEAM_BUILDER_DRAFT_RANKED_5x5,TEAM_BUILDER_RANKED_SOLO,RANKED_FLEX_SR&seasons=SEASON2016,PRESEASON2017,SEASON2017&api_key=" + _tokenTokenJs.Token;
   // TODO: change this url every time there is a new season, so that results
   // will be current with year.
   // make a request to get a list of all the match IDs that the user has
