@@ -1,0 +1,266 @@
+@import "./genlayout";
+
+h1{
+  @include span-columns(12);
+  color: #FFF;
+  font-family: 'Vegur';
+  font-size: 50px;
+  text-align: center;
+  color: #FF6400;
+  margin-bottom: 10px;
+  position: relative;
+}
+
+h2{
+  @include span-columns(12);
+  @include omega(n);
+  color: #181865;
+  font-family: 'Vegur';
+  text-align: center;
+  font-size: 35px;
+  margin-top: 0px;
+  margin-bottom: 10px;
+}
+
+div.headingBox{
+  @include span-columns(4.5);
+  @include shift(3.75);
+  border: 2px solid #9A9A9A;
+  border-top: none;
+  background-color: #FFF;
+  border-radius: 0px 0px 20px 20px;
+  position: absolute;
+  transition: .5s all linear;
+  z-index: 3;
+
+  &:hover{
+    top: 0px;
+    transition: .5s all linear;
+  }
+
+  a{
+    margin-top: 15px;
+    text-align: center;
+    font-size: 35px;
+    font-family: sans-serif;
+    display: block;
+    text-shadow: none;
+    text-decoration: none;
+    font-weight: 100;
+  }
+}
+
+div.leftBox{
+  @include span-columns(2.8);
+  margin-top: 121px;
+  border: 2px solid #181865;
+  border-radius: 0px 20px 20px 0px;
+  border-left: 0px;
+  position: absolute;
+  background-color: #FF6400;
+  padding-bottom: 25px;
+  overflow: hidden;
+
+  &:hover{
+    cursor: grab;
+    cursor: hand;
+    cursor: pointer;
+  }
+
+  h3{
+    color: #181865;
+    margin-bottom: 0px;
+    font-size: 35px;
+    text-align: center;
+  }
+
+  div.innerWrapper{
+    @include span-columns(10.5);
+    @include shift(1.5);
+    @include omega(n);
+
+    h4{
+      color: #181865;
+      margin-bottom: 0px;
+      font-size: 25px;
+    }
+
+    h5{
+      color: #181865;
+      margin-top: 10px;
+      display: block;
+      margin-bottom: 0px;
+      font-size: 18px;
+    }
+  }
+}
+
+div.rightBox{
+  @include span-columns(2.8);
+  @include omega(n);
+  margin-top: 121px;
+  right: 0px;
+  border: 2px solid #FF6400;
+  border-radius: 20px 0px 0px 20px;
+  border-right: none;
+  position: absolute;
+  background-color: #181865;
+  padding-bottom: 25px;
+  overflow: hidden;
+
+  &:hover{
+    cursor: grab;
+    cursor: hand;
+    cursor: pointer;
+  }
+
+  h3{
+    color: #FF6400;
+    margin-bottom: 0px;
+    font-size: 35px;
+    text-align: center;
+  }
+
+  div.innerWrapper{
+    @include span-columns(10.5);
+    @include shift(1.5);
+    @include omega(n);
+
+    h4{
+      color: #FF6400;
+      margin-bottom: 0px;
+      font-size: 25px;
+    }
+
+    h5{
+      color: #FF6400;
+      margin-top: 10px;
+      margin-bottom: 0px;
+      font-size: 18px;
+    }
+  }
+}
+
+.Logo{
+  @include span-columns(7.2);
+  @include shift(2.4);
+  @include omega(n);
+  opacity: .2;
+  z-index: -1;
+  position: relative;
+  margin-top: 55px;
+}
+
+a{
+  text-decoration: none;
+  
+  div.suggestedBox{
+    @include span-columns(6);
+    @include shift(3);
+    border: 2px solid #9A9A9A;
+    background-color: #FFF;
+    border-radius: 20px 20px 20px 20px;
+    padding: 20px;
+    position: relative;
+
+    &:hover{
+      cursor: grab;
+      cursor: hand;
+      cursor: pointer;
+    }
+
+    h3{
+      color: #181865;
+      font-size: 35px;
+      text-align: center;
+    }
+
+    p{
+      color: #181865;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+
+  .Logo{
+    @include span-columns(10);
+    @include shift(1);
+    margin-top: 100px;
+  }
+
+  div.headingBox{
+    @include shift(1);
+    @include span-columns(10);
+
+    h1{
+      font-size: 35px
+    }
+
+    h2{
+      font-size: 25px;
+    }
+  }
+  form{
+    div.suggestedBox{
+      @include shift(1);
+      @include span-columns(10);
+    }
+  }
+
+  div.leftBox{
+    @include span-columns(1.3);
+    margin-top: 141px;
+
+    div.innerWrapper{
+      h4{
+        font-size: 20px;
+      }
+    }
+  }
+
+  div.rightBox{
+    @include span-columns(1.3);
+    margin-top: 141px;
+
+    div.innerWrapper{
+      h4{
+        font-size: 20px;
+      }
+    }
+  }
+}
+
+@media (min-width: 480px) and (max-width: 810px) {
+  div.headingBox{
+    @include shift(2.55);
+    @include span-columns(6.9);
+  }
+
+  .Logo{
+    margin-top: 70px;
+  }
+
+  form{
+    div.suggestedBox{
+      @include span-columns(6.9);
+      @include shift(2.55);
+    }
+  }
+
+  div.leftBox{
+    div.innerWrapper{
+      h4{
+        font-size: 21px;
+      }
+    }
+  }
+
+  div.rightBox{
+    div.innerWrapper{
+      h4{
+        font-size: 21px;
+      }
+    }
+  }
+}

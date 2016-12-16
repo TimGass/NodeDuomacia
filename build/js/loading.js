@@ -53,8 +53,8 @@ socket.on("time", function (data) {
 
 socket.on("data", function (data) {
   socket.disconnect();
-  if (typeof data === "string") {
-    return window.location.href = data;
+  if (typeof data.data === "string") {
+    return window.location.href = data.data;
   }
   (0, _jquery2["default"])(".form").append("<textarea name='data'>" + JSON.stringify(data.data) + "</textarea>");
   (0, _jquery2["default"])(".form").trigger("submit");

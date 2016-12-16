@@ -1,0 +1,16 @@
+@import "./genlayout";
+@import "./pagelayout";
+
+div.headingBox{
+  top: -55px;
+
+  a{
+    color: #181865;
+  }
+}
+
+@media (max-width: 480px) {
+  div.headingBox{
+    top: -65px;
+  }
+}

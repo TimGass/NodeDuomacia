@@ -1,21 +1,8 @@
 #!/usr/bin/env node
 
-
 /**
  * disable babel cache
  */
-'use strict';
-
-Object.defineProperty(exports, '__esModule', {
-  value: true
-});
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-var _routesControllersSuggestionsControllerJs = require("../routes/controllers/suggestionsController.js");
-
-var _routesControllersSuggestionsControllerJs2 = _interopRequireDefault(_routesControllersSuggestionsControllerJs);
-
 process.env.BABEL_DISABLE_CACHE = 1;
 
 /**
@@ -43,19 +30,21 @@ var server = http.createServer(app);
  * Add socket integration to runtime
 */
 
-var io = require("socket.io")(server, {
+let io = require("socket.io")(server, {
   'transports': ["websocket"]
 });
 
-io.on("connection", function (socket) {
-  var cookiesArr = socket.client.request.headers.cookie.split(";");
-  var cookies = {};
-  var connections = 0;
-  var controllers = {};
-  cookiesArr.forEach(function (cookie) {
-    var funArr = cookie.split("=");
-    var key = funArr[0].replace(" ", "");
-    if (key === "displayName") {
+import suggestionsController from "../routes/controllers/suggestionsController.js";
+
+io.on("connection", (socket) => {
+  let cookiesArr = socket.client.request.headers.cookie.split(";");
+  let cookies = {};
+  let connections = 0;
+  let controllers = {};
+  cookiesArr.forEach((cookie) => {
+    let funArr = cookie.split("=");
+    let key = funArr[0].replace(" ", "");
+    if(key === "displayName"){
       return cookies[key] = decodeURIComponent(funArr[1]);
     }
     return cookies[key] = funArr[1];
@@ -64,31 +53,29 @@ io.on("connection", function (socket) {
   connections++;
   socket.emit("connected", { connected: true });
   console.log("a user connected!");
-  socket.on("disconnect", function (socket) {
-    if (controllers.hasOwnProperty(socket.id)) {
+  socket.on("disconnect", (socket) => {
+    if(controllers.hasOwnProperty(socket.id)){
       clearTimeout(controllers[socket.id]);
     }
     connections--;
-    if (connections === 0) {
+    if(connections === 0){
       clearInterval(yolo);
     }
     console.log("disconnected!");
   });
-  socket.on("time", function (socket) {
+  socket.on("time", (socket) => {
     console.log("recieved response!");
   });
-  socket.on("name", function (data) {
+  socket.on("name", (data) => {
     cookies.params = {};
     cookies.params.summoner = data.name;
-    var callback = function callback(data) {
+    let callback = (data) => {
       return socket.emit("data", { data: data });
     };
     //just in case we need to kill stuff, we'll have timeout wrappers and can kill by clearTimeout(controllers[socket.id])
-    controllers[socket.id] = setTimeout(function () {
-      (0, _routesControllersSuggestionsControllerJs2['default'])(cookies, socket, callback);
-    }, 0);
+    controllers[socket.id] = setTimeout(() => { suggestionsController(cookies, socket, callback) }, 0);
   });
-  var yolo = setInterval(function () {
+  let yolo = setInterval(() => {
     socket.emit("time", { time: new Date().toTimeString() });
     console.log("sent time");
   }, 1000);
@@ -131,7 +118,9 @@ function onError(error) {
     throw error;
   }
 
-  var bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
+  var bind = typeof port === 'string'
+    ? 'Pipe ' + port
+    : 'Port ' + port;
 
   // handle specific listen errors with friendly messages
   switch (error.code) {
@@ -154,9 +143,10 @@ function onError(error) {
 
 function onListening() {
   var addr = server.address();
-  var bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
+  var bind = typeof addr === 'string'
+    ? 'pipe ' + addr
+    : 'port ' + addr.port;
   debug('Listening on ' + bind);
 }
 
-exports['default'] = server;
-module.exports = exports['default'];
+export default server;

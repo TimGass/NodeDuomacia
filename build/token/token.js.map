@@ -1,1 +1,0 @@
-{"version":3,"sources":["../../server/token/token.js"],"names":[],"mappings":";;;;;AAAO,IAAM,KAAK,GAAG,4CAA4C,CAAC","file":"token.js","sourcesContent":["export const Token = \"RGAPI-185B94BD-6063-4F75-81CB-B5D98501B146\";\n"]}
