@@ -4,11 +4,19 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+var _simpleRateLimiter = require("simple-rate-limiter");
+
+var _simpleRateLimiter2 = _interopRequireDefault(_simpleRateLimiter);
+
+var _request = require("request");
+
+var _request2 = _interopRequireDefault(_request);
+
 var _tokenTokenJs = require("../../token/token.js");
 
 function SuggestionsController(cookies, socket, callback) {
-  var limit = require("simple-rate-limiter");
-  var requestLib = require("request");
   var dc = false;
   var ourRequest = function ourRequest(url, callback) {
     var timeout = arguments.length <= 2 || arguments[2] === undefined ? 0 : arguments[2];
@@ -17,10 +25,10 @@ function SuggestionsController(cookies, socket, callback) {
       return;
     }
     setTimeout(function () {
-      return requestLib({ url: url, forever: true, pool: { maxSockets: Infinity } }, callback);
+      return (0, _request2["default"])({ url: url, forever: true, pool: { maxSockets: Infinity } }, callback);
     }, timeout);
   };
-  var request = limit(ourRequest).to(3000).per(10000);
+  var request = (0, _simpleRateLimiter2["default"])(ourRequest).to(3000).per(10000);
   var result = undefined;
   var status = undefined;
   var url = undefined;
@@ -133,25 +141,22 @@ function SuggestionsController(cookies, socket, callback) {
     });
     var log = {};
     matchIdArray.forEach(function (item, key) {
-      if ((matchIdArray.indexOf(item) !== key || matchIdArray.indexOf(item, key + 1)) && matchIdArray.indexOf(item) !== -1) {
+      if ((matchIdArray.indexOf(item) !== key || matchIdArray.indexOf(item, key + 1) !== -1) && matchIdArray.indexOf(item) !== -1) {
         if (log[item]) {
           return log[item]++;
         }
         return log[item] = 1;
       }
     });
-    console.log(log);
     if (Object.keys(log).length > 0) {
       Object.keys(log).forEach(function (matchId) {
         matchArray.forEach(function (item, key) {
           if (Number(matchId) === item.matchId) {
-            console.log(key);
             matchArray.splice(key, log[matchId]);
           }
         });
       });
     }
-    console.log(matchArray);
     matchArray.forEach(function (match, number) {
       var winteam = undefined;
       var losePlayersId = [];
