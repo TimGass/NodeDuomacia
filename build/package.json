@@ -3,8 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "build": "npm install -g forever",
-    "start": "npm build && forever ./bin/www",
+    "start": "npm install forever && forever ./bin/www",
     "clean": "rm -rf build && mkdir build",
     "build-server": "babel --presets=es2015 -d ./build ./server -s && mkdir ./build/bin && cp -a ./server/public ./build && gulp rename && gulp clean && babel --presets=es2015 -d ./build/bin ./server/bin && gulp www && cp .env ./build && cp procfile ./build && gulp production",
     "run-server": "babel-node --presets=es2015 ./server/bin/www",
