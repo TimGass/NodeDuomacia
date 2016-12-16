@@ -135,11 +135,13 @@ function SuggestionsController(cookies, socket, callback){
       Object.keys(log).forEach((matchId) => {
         matchArray.forEach((item, key) => {
           if(Number(matchId) === item.matchId){
+            console.log(matchArray[key]);
             matchArray.splice(key, log[matchId]);
           }
         })
       });
     }
+    console.log(log);
     matchArray.forEach((match, number) => {
       let winteam;
       let losePlayersId = [];
@@ -214,14 +216,14 @@ function SuggestionsController(cookies, socket, callback){
             console.error(response.statusCode);
             if(response.statusCode === 429){
               if(response.headers.hasOwnProperty("retry-after")){
-                request(url, getter, (response.headers.retry-after * 1000));
+                request(response.request.uri.href, getter, (response.headers.retry-after * 1000));
               }
               else {
-                request(url, getter, 5000);
+                request(response.request.uri.href, getter, 5000);
               }
             }
             else {
-              request(url, getter, 5000);
+              request(response.request.uri.href, getter, 5000);
             }
           }
           else {

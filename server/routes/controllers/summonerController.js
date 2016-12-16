@@ -13,14 +13,16 @@ function SummonerController(req, res){
     return res.redirect(`../error/${status}`);
   }
   let url = `https://na.api.pvp.net/api/lol/na/v1.4/summoner/by-name/${truename}?api_key=${Token}`;
-  request(url, (err, response, data) => {
+  let getter = (err, response, data) => {
     if(err && response.statusCode > 310){
       console.error(err);
+      request(response.request.uri.href, getter, 5000);
     }
     result = JSON.parse(data);
     status = response.statusCode;
     dataHandler1();
-  });
+  };
+  request(url, getter);
   dataHandler1 = ()=> {
     if(status > 310){
       return res.redirect(`../error/${status}`);
@@ -30,14 +32,16 @@ function SummonerController(req, res){
     let idResult;
     let idStatus;
     url = `https://na.api.pvp.net/api/lol/na/v2.5/league/by-summoner/${id}?api_key=${Token}`;
-    request(url, (err, response, data) => {
-      if(err && response.statusCode > 310){
+    let getter = (err, response, data) => {
+      if(!err && response.statusCode > 310){
         console.error(err);
+        request(response.request.uri.href, getter, 5000)
       }
       idResult = JSON.parse(data);
       idStatus = response.statusCode;
       dataHandler2();
-    });
+    };
+    request(url, getter);
     dataHandler2 = () => {
       if(idStatus === 404){
         return res.redirect("../error/unranked");
@@ -76,16 +80,17 @@ function SummonerController(req, res){
       // make a request to get a list of all the match IDs that the user has
       // played in ranked this year.
 
-      request(url, (err, response, data) => {
+      let getter = (err, response, data) => {
         if(response.statusCode > 310){
           console.error(response.statusCode);
-          return res.redirect(`../error/${idStatus}`);
+          request(response.request.uri.href, 5000);
         }
         let matchList = JSON.parse(data);
         let waitTime = moment.duration(((matchList.matches.length/3000)*10500) + 10000).humanize();
         res.cookie('waitTime', (((matchList.matches.length/3000)*10500) + 10000), { maxAge: 2592000, httpOnly: false });
         return res.render("summoner", { winResult: winResult, hotResult: hotResult, name: req.params.summoner, waitTime: waitTime });
-      });
+      };
+      request(url, getter);
     };
   };
 }
