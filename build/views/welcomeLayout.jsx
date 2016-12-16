@@ -90,11 +90,6 @@ var WelcomeLayout = (function (_React$Component) {
                 "Please input the account you wish to search:"
               ),
               _react2["default"].createElement(
-                "h1",
-                null,
-                "Use Valkrin for testing"
-              ),
-              _react2["default"].createElement(
                 "form",
                 { className: "search", action: "/search", method: "post" },
                 this.props.children,

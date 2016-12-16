@@ -5,7 +5,7 @@
   "scripts": {
     "start": "forever ./bin/www",
     "clean": "rm -rf build && mkdir build",
-    "build-server": "babel --presets=es2015 -d ./build ./server -s && mkdir ./build/bin && cp -a ./server/public ./build && gulp rename && gulp clean && babel --presets=es2015 -d ./build/bin ./server/bin && gulp www && cp .env ./build && cp procfile ./build && gulp production && rm -rf ./build/js",
+    "build-server": "babel --presets=es2015 -d ./build ./server -s && mkdir ./build/bin && cp -a ./server/public ./build && gulp rename && gulp clean && babel --presets=es2015 -d ./build/bin ./server/bin && gulp www && cp .env ./build && cp procfile ./build && gulp production",
     "run-server": "babel-node --presets=es2015 ./server/bin/www",
     "edit-server": "sudo nodemon -x 'babel-node --presets=es2015' ./server/bin/www",
     "prep": "cp package.json ./build && cp procfile ./build && cp .env ./build"
