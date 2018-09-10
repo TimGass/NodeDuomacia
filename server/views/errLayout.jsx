@@ -22,7 +22,7 @@ class ErrLayout extends React.Component {
           </script>
         </body>
       </html>
-    );
+      );
   }
 }
 

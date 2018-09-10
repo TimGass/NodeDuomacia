@@ -39,8 +39,8 @@ class WelcomeLayout extends React.Component {
                   <img className="Logo" src="/images/Duomacia2.svg" alt="Duomacia's official logo. Says the words DUOmacia with very fancy text!" />
                   <img className="GarenImg" src="/images/GoodEnough.svg" alt="Garen, the might of demacia! Large man, with giant armor and a massive sword! DEMACIA!!!" />
                 </div>
-                <label for="search">Please input the account you wish to search:</label>
-                <h1>Use Valkrin for testing</h1>
+                <label htmlFor="search">Please input the account you wish to search:</label>
+                <h1>Use mozartw for testing</h1>
                 <form className="search" action="/search" method="post">
                   {this.props.children}
                   <button type="submit" name="submit">Forge onwards!</button>

@@ -1,6 +1,6 @@
 import request from "request";
 import moment from "moment";
-import {Token} from "../../token/token.js";
+import Token from "../../token.js";
 
 function SummonerController(req, res){
   let status;
@@ -12,7 +12,7 @@ function SummonerController(req, res){
     status = 404;
     return res.redirect(`../error/${status}`);
   }
-  let url = `https://na.api.pvp.net/api/lol/na/v1.4/summoner/by-name/${truename}?api_key=${Token}`;
+  let url = `https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/${truename}?api_key=${Token}`;
   let getter = (err, response, data) => {
     if(err && response.statusCode > 310){
       console.error(err);
@@ -23,23 +23,41 @@ function SummonerController(req, res){
     dataHandler1();
   };
   request(url, getter);
-  dataHandler1 = ()=> {
+  dataHandler1 = () => {
     if(status > 310){
       return res.redirect(`../error/${status}`);
     }
-    let displayName = result[truename].name;
-    let id = result[truename].id;
+    let displayName = result.name;
+    let id = result.id;
+    let accountId = result.accountId;
     let idResult;
     let idStatus;
-    url = `https://na.api.pvp.net/api/lol/na/v2.5/league/by-summoner/${id}?api_key=${Token}`;
+    url = `https://na1.api.riotgames.com/lol/league/v3/positions/by-summoner/${id}?api_key=${Token}`;
     let getter = (err, response, data) => {
       if(!err && response.statusCode > 310){
+        console.log(data);
         console.error(err);
         request(response.request.uri.href, getter, 5000)
       }
       idResult = JSON.parse(data);
       idStatus = response.statusCode;
-      dataHandler2();
+      let leagueId = idResult[0].leagueId;
+      url = `https://na1.api.riotgames.com/lol/league/v3/leagues/${leagueId}?api_key=${Token}`;
+      let simpleFunction = (err, response, data) => {
+        if(err) {
+          return err;
+        }
+        else if (!err && response.statusCode > 310 && response.statusCode < 400) {
+          console.error(err);
+          request(response.request.uri.href, simpleFunction, 5000)
+        }
+        else {
+          idResult = JSON.parse(data);
+          idStatus = response.statusCode;
+          dataHandler2();
+        }
+      };
+      request(url, simpleFunction);
     };
     request(url, getter);
     dataHandler2 = () => {
@@ -55,18 +73,18 @@ function SummonerController(req, res){
         }
         return (Math.round((b.wins/(b.wins + b.losses))*10000)/100) - (Math.round((a.wins/(a.wins + a.losses))*10000)/100);
       };
-      idResult[id][0].entries.sort(percentageSort);
+      idResult.entries.sort(percentageSort);
       let hotFilter = (player) => {
-        return player.isHotStreak;
+        return player.hotStreak;
       };
       let winFilter = (player) => {
         let total = player.wins + player.losses;
         let ratio = player.wins/total;
         return (ratio > .55) && (total > 50);
       };
-      let hotResult = idResult[id][0].entries.filter(hotFilter);
-      let winResult = idResult[id][0].entries.filter(winFilter);
-      res.cookie('id', id, { maxAge: 2592000, httpOnly: true });
+      let hotResult = idResult.entries.filter(hotFilter);
+      let winResult = idResult.entries.filter(winFilter);
+      res.cookie('id', accountId, { maxAge: 2592000, httpOnly: true });
       res.cookie('displayName', displayName, { maxAge: 2592000, httpOnly: true });
 
       // fill out variables, given previous searches with cookies, making sure
@@ -74,7 +92,7 @@ function SummonerController(req, res){
       // this allows us to skip a large part of the process down below,
       // letting us know their ID and that the account exists and is ranked.
       // So, we make less requests and speed up the process.
-      url = `https://na.api.pvp.net/api/lol/na/v2.2/matchlist/by-summoner/${id}?rankedQueues=TEAM_BUILDER_DRAFT_RANKED_5x5,RANKED_SOLO_5x5&seasons=SEASON2016&api_key=${Token}`;
+      url = `https://na1.api.riotgames.com/lol/match/v3/matchlists/by-account/${accountId}?queue=420&queue=440&api_key=${Token}`;
       // TODO: change this url every time there is a new season, so that results
       // will be current with year.
       // make a request to get a list of all the match IDs that the user has
@@ -86,8 +104,8 @@ function SummonerController(req, res){
           request(response.request.uri.href, 5000);
         }
         let matchList = JSON.parse(data);
-        let waitTime = moment.duration(((matchList.matches.length/3000)*10500) + 10000).humanize();
-        res.cookie('waitTime', (((matchList.matches.length/3000)*10500) + 10000), { maxAge: 2592000, httpOnly: false });
+        let waitTime = moment.duration(((matchList.totalGames/3000)*10500) + 10000).humanize();
+        res.cookie('waitTime', (((matchList.totalGames/3000)*10500) + 10000), { maxAge: 2592000, httpOnly: false });
         return res.render("summoner", { winResult: winResult, hotResult: hotResult, name: req.params.summoner, waitTime: waitTime });
       };
       request(url, getter);

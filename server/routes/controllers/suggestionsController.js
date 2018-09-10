@@ -1,6 +1,6 @@
 import limit from "simple-rate-limiter";
 import requestLib from "request";
-import {Token} from "../../token/token.js";
+import Token from "../../token.js";
 
 function SuggestionsController(cookies, socket, callback){
   let dc = false;
@@ -14,7 +14,7 @@ function SuggestionsController(cookies, socket, callback){
   let result;
   let status;
   let url;
-  let matchList;
+  let matchList = { matches: [] };
   let winners = [];
   let losers = [];
   let matchArray = [];
@@ -28,26 +28,30 @@ function SuggestionsController(cookies, socket, callback){
     dc = true;
   });
 
-  let dataHandler3 = () => {
+  let dataHandler3 = async () => {
     let notMeFilter = (name) => {
       return name !== displayName;
     };
     winners = winners.filter(notMeFilter);
     losers = losers.filter(notMeFilter);
-    let arrayCounter = (list) => {
+    let arrayCounter = async (list) => {
       let listCount = {};
       for(var x = 0; x < list.length; x++){
-        if(listCount[list[x]]){
+        if(list[x] in listCount){
           listCount[list[x]] += 1;
         }
         else {
           listCount[list[x]] = 1;
         }
+        if (x === list.length - 1) {
+          console.log(listCount);
+          return listCount;
+        }
       }
-      return listCount;
-    };
-    let loseCount = arrayCounter(losers);
-    let winCount = arrayCounter(winners);
+    }
+    const loseCount = await arrayCounter(losers);
+    const winCount = await arrayCounter(winners);
+    console.log(winCount);
     let winCountMap = (player, keyIndex) => {
       let mixed = false;
       Object.keys(loseCount).forEach((playerLoss, keyIndexLoss) => {
@@ -120,7 +124,7 @@ function SuggestionsController(cookies, socket, callback){
   let dataHandler2 = () => {
     let matchIdArray = [];
     matchArray.forEach((match) => {
-      matchIdArray.push(match.matchId);
+      matchIdArray.push(match.gameId);
     });
     let log = {};
     matchIdArray.forEach((item, key) => {
@@ -134,20 +138,19 @@ function SuggestionsController(cookies, socket, callback){
     if(Object.keys(log).length > 0){
       Object.keys(log).forEach((matchId) => {
         matchArray.forEach((item, key) => {
-          if(Number(matchId) === item.matchId){
+          if(Number(matchId) === item.gameId){
             console.log(matchArray[key]);
             matchArray.splice(key, log[matchId]);
           }
         })
       });
     }
-    console.log(log);
     matchArray.forEach((match, number) => {
       let winteam;
       let losePlayersId = [];
       let winPlayersId = [];
       match.teams.forEach((team) => {
-        if(team.winner){
+        if(team.win === "Win"){
           winteam = team.teamId;
         }
       });
@@ -162,20 +165,18 @@ function SuggestionsController(cookies, socket, callback){
       match.participantIdentities.forEach((participant) => {
         winPlayersId.forEach((partId) => {
           if(participant.participantId === partId){
-            if(participant.player.summonerId === id){
+            if(participant.player.accountId === id){
               match.participantIdentities.forEach((partWin) => {
-                winPlayersId.forEach((partWinId) => {
-                  if(partWin.participantId === partWinId){
-                    winners.push(partWin.player.summonerName);
-                  }
-                });
+                if(partWin.participantId === partId){
+                  winners.push(partWin.player.summonerName);
+                }
               });
             }
           }
         });
         losePlayersId.forEach((partId) => {
           if(participant.participantId === partId){
-            if(participant.player.summonerId === id){
+            if(participant.player.accountId === id){
               match.participantIdentities.forEach((partLose) => {
                 losePlayersId.forEach((partLoseId) => {
                   if(partLose.participantId === partLoseId){
@@ -195,7 +196,7 @@ function SuggestionsController(cookies, socket, callback){
   };
   let dataHandler1 = () => {
     let matchListMap = (match) => {
-      return match.matchId;
+      return match.gameId;
     };
     let matchIdList = matchList.matches.map(matchListMap);
     // create a list of match IDs, instead of details. We really only care
@@ -206,7 +207,7 @@ function SuggestionsController(cookies, socket, callback){
       if(dc){
         return;
       }
-      url = `https://na.api.pvp.net/api/lol/na/v2.2/match/${match}?api_key=${Token}`;
+      url = `https://na1.api.riotgames.com/lol/match/v3/matches/${match}?api_key=${Token}`;
       let getter = (err, response, data) => {
         if(!response){
           request(url, getter);
@@ -258,25 +259,35 @@ function SuggestionsController(cookies, socket, callback){
   // this allows us to skip a large part of the process down below,
   // letting us know their ID and that the account exists and is ranked.
   // So, we make less requests and speed up the process.
-  url = `https://na.api.pvp.net/api/lol/na/v2.2/matchlist/by-summoner/${id}?rankedQueues=RANKED_SOLO_5x5,TEAM_BUILDER_DRAFT_RANKED_5x5,TEAM_BUILDER_RANKED_SOLO,RANKED_FLEX_SR&seasons=SEASON2016,PRESEASON2017,SEASON2017&api_key=${Token}`;
+  url = `https://na1.api.riotgames.com/lol/match/v3/matchlists/by-account/${id}?queue=420&queue=440&api_key=${Token}`;
   // TODO: change this url every time there is a new season, so that results
   // will be current with year.
   // make a request to get a list of all the match IDs that the user has
   // played in ranked this year.
-
-  return request(url, (err, response, data) => {
-    if(response.statusCode > 310){
+  let customGetter = (err, response, data) => {
+    let dataObj = JSON.parse(data);
+    if (response.statusCode > 310) {
+      console.log(response.request.uri.href);
       console.error(response.statusCode);
       status = response.statusCode
       dc = true;
       return callback(`../../../error/${status}`);
     }
-    matchList = JSON.parse(data);
-    return dataHandler1();
-    if(dc){
-      return;
+    else if (dataObj.totalGames > dataObj.endIndex) {
+      url = `https://na1.api.riotgames.com/lol/match/v3/matchlists/by-account/${id}?queue=420&queue=440&beginIndex=${dataObj.endIndex}&api_key=${Token}`;
+      matchList.matches = matchList.matches.concat(dataObj.matches);
+      return request(url, customGetter);
     }
-  });
+    else {
+      matchList.matches = matchList.matches.concat(dataObj.matches);
+      if (dc) {
+        return;
+      }
+      return dataHandler1();
+    }
+  };
+
+  return request(url, customGetter);
 };
 
 export default SuggestionsController;

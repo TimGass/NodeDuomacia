@@ -1,5 +1,5 @@
 node_modules
 bower_components
 build
-build/token
-server/token
+build/token.js
+server/token.js

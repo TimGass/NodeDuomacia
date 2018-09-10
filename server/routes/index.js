@@ -1,9 +1,9 @@
 var express = require('express');
 var router = express.Router();
+import controller from './controllers/welcomeController';
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  let controller = require("./controllers/welcomeController.js");
   controller(req, res);
 });
 

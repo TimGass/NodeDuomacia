@@ -14,8 +14,7 @@ class Loading extends React.Component {
     });
   }
   render () {
-    return (
-      <html>
+    return <html>
         <head>
           <meta charset="utf-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -35,7 +34,6 @@ class Loading extends React.Component {
           <script type="text/javascript" src="/javascripts/loading.js"></script>
         </body>
       </html>
-    );
   }
 }
 

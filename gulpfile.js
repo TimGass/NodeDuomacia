@@ -51,7 +51,7 @@ gulp.task("www", function(){
 function bundle(file){
   var srcval = file.replace("server/js/", "");
   return browserify({entries: [file], debug: true})
-  .transform(babelify, {presets: ["es2015"]})
+  .transform(babelify, {presets: ["latest", 'react']})
   .bundle()
   .on("error", function(err){
     gutil.beep();
